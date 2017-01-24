@@ -5,12 +5,18 @@ var io = require('socket.io')(http);
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
-
+var clients = 0;
 
 io.on('connection', function(socket){
+  clients++;
+  io.sockets.emit('broadcast',{ description: clients + ' clients connected!'});
   socket.on('chat message', function(msg){
     io.emit('chat message', msg);
   });
+  socket.on('disconnect', function () {
+	       clients--;
+	         io.sockets.emit('broadcast',{ description: clients + ' clients connected!'});
+             });
 });
 
 http.listen(3000, function(){
