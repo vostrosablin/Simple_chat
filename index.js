@@ -9,13 +9,13 @@ var clients = 0;
 
 io.on('connection', function(socket){
   clients++;
-  io.sockets.emit('broadcast',{ description: clients + ' clients connected!'});
+  io.sockets.emit('broadcast',{ description: clients + ' client(s) connected!'});
   socket.on('chat message', function(msg){
     io.emit('chat message', msg);
   });
   socket.on('disconnect', function () {
 	       clients--;
-	         io.sockets.emit('broadcast',{ description: clients + ' clients connected!'});
+	         io.sockets.emit('broadcast',{ description: clients + ' client(s) connected!'});
              });
 });
 
