@@ -1,7 +1,6 @@
-# chat-example
+# Simple chat
 
-This is the source code for a very simple chat example used for 
-the [Getting Started](http://socket.io/get-started/chat/) guide 
-of the Socket.IO website.
+This is the simple chat application based apon NodeJS and SocketIO.
+To run the application type "node index.js" and open your browser at localhost:3000
 
-Please refer to it to learn how to run this application.
+
