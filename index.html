@@ -32,6 +32,7 @@
       var socket = io();
       socket.emit('name', {description: name});
 
+
      $('form').submit(function(){
       socket.emit('chat message name', {message: $('#m').val(), name: name});
       $('#m').val('');
@@ -42,7 +43,13 @@
         $('#messages').append($('<li>').text(msg.name + ':'+' '+ msg.message));
       });
       socket.on('broadcast', function(data){
-        $('#connected').append($('<li>').text(data.description));
+        var li = $('<li/>', { id: data.description,  html: data.description + ' is online' });
+      //  $('#connected').append($('<li>').text(data.description));
+          $('#connected').append(li);
+      });
+      socket.on('disconnected', function(data){
+        $('#connected').children(msg.name).remove();
+        console.log(msg.name + "is disconnected")
       });
     </script>
   </body>
