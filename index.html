@@ -47,9 +47,9 @@
         var li = $('<li/>', { id: data.description,  html: data.description + ' is online' });
         $('#connected').append(li);
       });
-      socket.on('disconnected', function(data){
-        $('#connected').children(data.description).remove();
-        console.log(data.description + "is disconnected")
+      socket.on('discon', function(data){
+        console.log(data.description + " " + "is recieved");
+        document.getElementById(data.description).remove();
       });
     </script>
   </body>

@@ -6,10 +6,16 @@ app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
+var allClients = [];
 
 io.on('connection', function(socket){
 
+   allClients.push(socket.id);
+
+
   socket.on('name', function(data){
+  allClients.push(data.description);
+  console.log(allClients);
   io.sockets.emit('broadcast', { description: data.description });
     });
 
@@ -18,7 +24,11 @@ io.on('connection', function(socket){
   });
 
   socket.on('disconnect', function(data){
-     console.log(data);
+     var i = allClients.indexOf(socket.id);
+     io.sockets.emit('discon', {description: allClients[i + 1]} );
+     console.log(allClients[i + 1] + " " + "is disconnected!");
+     allClients.splice(i, 2);
+     console.log(allClients);
   });
 
   });
