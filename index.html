@@ -15,14 +15,12 @@
       #messages { list-style-type: none; margin: 0; padding: 0; }
       #messages li { padding: 5px 10px; font-family: 'Ubuntu', serif; font-size: 30px;}
       #messages li:nth-child(odd) { background: #eee; font-family: 'Ubuntu', serif; font-size: 30px;}
-      #connected li{ padding: 5px 10px; font-family: 'Ubuntu', serif; font-size: 30px; color: #808B96;}
+      #con li{ padding: 5px 10px; font-family: 'Ubuntu', serif; font-size: 30px; color: #808B96;}
       input[type="text"]{ font-size:24px;}
     </style>
   </head>
   <body>
-    <ul id="connected"></ul>
     <ul id = "con"><li id="con1"></li></ul>
-    <ul id = "a"><li id="b">should be cleaned</li></ul>
     <ul id="messages"></ul>
     <form action="">
       <input id="m" autocomplete="off" type="text"/><button>Send</button>
@@ -32,7 +30,6 @@
     <script>
       var name = prompt('Please enter you name!');
       var socket = io();
-      var users_list = [];
       socket.emit('name', {description: name});
 
       socket.emit('disconnect', {description: name});
@@ -47,30 +44,35 @@
         $('#messages').append($('<li>').text(msg.name + ':'+' '+ msg.message));
       });
       socket.on('broadcast', function(data){
-        var li = $('<li/>', { id: data.description,  html: data.description + ' is online' });
-        $('#connected').append(li);
+        var users_list = [];
+        var users_list_1 = [];
+
         console.log("Data from server:" +" "+ data.list );
         for (var i = 1; i < data.list.length; i = i + 2) {
           users_list.push(data.list[i]);
         }
-        var users_list_1 = users_list.join();
+         users_list_1 = users_list.join();
 
-        //document.getElementById('con1').remove();
-        //var li1 = $('<li/>', {id: 'con1', html: 'Users online:' + ' ' + users_list_1});
-      //  $('#con').append(li1);
+
       $( "#con1" ).empty();
-      $( "#b" ).empty();
-        //document.getElementById('con1').innerHTML = '';
-        //document.getElementById('con').innerHTML = " ";
-        document.getElementById('con1').innerHTML = "Users online:" + " " + users_list_1;
+      document.getElementById('con1').innerHTML = "Users online:" + " " + users_list_1;
       });
 
 
 
 
       socket.on('discon', function(data){
-        console.log(data.description + " " + "is recieved");
-        document.getElementById(data.description).remove();
+        var users_list = [];
+        var users_list_1 = [];
+
+        for (var i = 1; i < data.description.length; i = i + 2) {
+          users_list.push(data.description[i]);
+        }
+         users_list_1 = users_list.join();
+
+
+      $( "#con1" ).empty();
+      document.getElementById('con1').innerHTML = "Users online:" + " " + users_list_1;
       });
     </script>
   </body>

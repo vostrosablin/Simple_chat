@@ -26,9 +26,9 @@ io.on('connection', function(socket){
 
   socket.on('disconnect', function(data){
      var i = allClients.indexOf(socket.id);
-     io.sockets.emit('discon', {description: allClients[i + 1]} );
      console.log(allClients[i + 1] + " " + "is disconnected!");
      allClients.splice(i, 2);
+     io.sockets.emit('discon', {description: allClients} );
      console.log(allClients);
   });
 
