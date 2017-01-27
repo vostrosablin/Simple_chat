@@ -16,7 +16,8 @@ io.on('connection', function(socket){
   socket.on('name', function(data){
   allClients.push(data.description);
   console.log(allClients);
-  io.sockets.emit('broadcast', { description: data.description });
+  io.sockets.emit('broadcast', { description: data.description, list: allClients });
+
     });
 
   socket.on('chat message name', function(msg){
